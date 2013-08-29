@@ -13,7 +13,7 @@ class SeatSection {
 	
     static constraints = {
 		type nullable: false, blank: false, unique: ['cinema']
-		rows nullable: false, max: 1..100, blank: false
-		colums nullable: false, max: 1..100, blank: false
+		rows nullable: false, min: 1, max: 100, blank: false
+		colums nullable: false, min: 1, max:100, blank: false
     }
 }
