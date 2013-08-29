@@ -117,6 +117,13 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.globallogic.cinemark.security.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.globallogic.cinemark.security.UserRole'
+grails.plugins.springsecurity.authority.className = 'com.globallogic.cinemark.security.Role'
+grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/login/authSuccess"
+//grails.plugins.springsecurity.securityConfigType = "InterceptUrlMap"
+grails.plugins.springsecurity.logout.afterLogoutUrl = '/login/auth'
+grails.security.passwordValidUrl = "/login/auth"
 grails.plugins.springsecurity.successHandler.alwaysUseDefault = true
 grails.plugins.springsecurity.successHandler.alwaysUseDefaultTargetUrl = true
 
@@ -154,13 +161,7 @@ grails.plugins.springsecurity.secureChannel.definition = [
 	'/**':'REQUIRES_SECURE_CHANNEL'
  ]
 
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.globallogic.cinemark.security.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.globallogic.cinemark.security.UserRole'
-grails.plugins.springsecurity.authority.className = 'com.globallogic.cinemark.security.Role'
-grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/login/authSuccess"
-//grails.plugins.springsecurity.securityConfigType = "InterceptUrlMap"
-grails.plugins.springsecurity.logout.afterLogoutUrl = '/login/auth'
-grails.security.passwordValidUrl = "/login/auth"
+
 
 jcaptchas {
 	image = new GenericManageableCaptchaService (

@@ -63,7 +63,51 @@
 						
 					</g:if>
 				
+				<g:if test="${movieInstance?.actors}">
+						<dt><g:message code="movie.actors.label" default="Actors" /></dt>
+						
+							<dd><g:fieldValue bean="${movieInstance}" field="actors"/></dd>
+						
+					</g:if>
+					
+					<g:if test="${movieInstance?.picUrl}">
+						<dt><g:message code="movie.picUrl.label" default="Picture Url" /></dt>
+						
+							<dd><g:fieldValue bean="${movieInstance}" field="picUrl"/></dd>
+						
+					</g:if>
+				
+				<g:if test="${movieInstance?.trailerUrl}">
+						<dt><g:message code="movie.trailerUrl.label" default="Trailer Url" /></dt>
+						
+							<dd><g:fieldValue bean="${movieInstance}" field="trailerUrl"/></dd>
+						
+					</g:if>
+				
+				<g:if test="${movieInstance?.genre}">
+						<dt><g:message code="movie.genre.label" default="Genre" /></dt>
+						
+							<dd><g:fieldValue bean="${movieInstance}" field="genre"/></dd>
+						
+					</g:if>
+					
+					<g:if test="${movieInstance?.director}">
+						<dt><g:message code="movie.director.label" default="Director" /></dt>
+						
+							<dd><g:fieldValue bean="${movieInstance}" field="director"/></dd>
+						
+					</g:if>
+					
+					<g:if test="${movieInstance?.year}">
+						<dt><g:message code="movie.year.label" default="Year" /></dt>
+						
+							<dd><g:fieldValue bean="${movieInstance}" field="year"/></dd>
+						
+					</g:if>
 				</dl>
+				
+				
+				
 
 				<g:form>
 					<g:hiddenField name="id" value="${movieInstance?.id}" />
