@@ -34,10 +34,9 @@
                         <input class="btn primary" type='submit' id="submit" value='${message(code: "springSecurity.login.button")}'/>
                     </fieldset>
                 </form>
-                <g:form controller="login" action="forgotPassword" >
+<%--                 <g:form controller="login" action="forgotPassword" >
 					<g:actionSubmit class="btn btn-info" value='${message(code: "user.password.forgot", default: "Forgot Password")}'/>
-				</g:form>
-				<facebookAuth:connect/>
+				</g:form>--%>
             </div>
         </div>
     </div>
