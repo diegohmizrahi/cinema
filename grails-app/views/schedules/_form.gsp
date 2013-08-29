@@ -15,7 +15,6 @@
 		<g:message code="schedules.time.label" default="Time" />
 		
 	</label>
-	<g:textField name="time" value="${schedulesInstance?.time}"/>
 	<g:select name="hours" from="${00..24}" value="${schedulesInstance?.time?.split(':')?.first() }" />
 	<g:select name="minutes" from="${00..59}" value="${schedulesInstance?.time?.split(':')?.last() }"/>
 </div>
