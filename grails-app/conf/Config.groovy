@@ -1,3 +1,17 @@
+import grails.plugins.springsecurity.SecurityConfigType
+
+import java.awt.Color
+import java.awt.Font
+
+import com.octo.captcha.component.image.backgroundgenerator.GradientBackgroundGenerator
+import com.octo.captcha.component.image.color.SingleColorGenerator
+import com.octo.captcha.component.image.fontgenerator.RandomFontGenerator
+import com.octo.captcha.component.image.textpaster.NonLinearTextPaster
+import com.octo.captcha.component.image.wordtoimage.ComposedWordToImage
+import com.octo.captcha.component.word.wordgenerator.RandomWordGenerator
+import com.octo.captcha.engine.GenericCaptchaEngine
+import com.octo.captcha.image.gimpy.GimpyFactory
+import com.octo.captcha.service.multitype.GenericManageableCaptchaService
 // locations to search for config files that get merged into the main config;
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
@@ -68,6 +82,19 @@ environments {
         // TODO: grails.serverURL = "http://www.changeme.com"
     }
 }
+grails {
+	mail {
+		host = "smtp.gmail.com"
+		port = 465
+		username = "cubika.desa@gmail.com"
+		password = "Cubika2009"
+		from = "Cubika"
+		props = ["mail.smtp.auth":"true",
+					"mail.smtp.socketFactory.port":"465",
+					"mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+					"mail.smtp.socketFactory.fallback":"false"]
+	}
+}
 
 // log4j configuration
 log4j = {
@@ -90,6 +117,13 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
+grails.plugins.springsecurity.successHandler.alwaysUseDefault = true
+grails.plugins.springsecurity.successHandler.alwaysUseDefaultTargetUrl = true
+
+grails.plugins.springsecurity.useSessionFixationPrevention = true
+
+
+grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
 grails.plugins.springsecurity.interceptUrlMap = [
 	'/login/**':  ['IS_AUTHENTICATED_ANONYMOUSLY'],
 	'/logout/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
@@ -111,6 +145,7 @@ grails.plugins.springsecurity.interceptUrlMap = [
 	'/index': ['ROLE_ADMIN' ,'IS_AUTHENTICATED_FULLY'],
 	'/phase/**': ['ROLE_ADMIN' ,'IS_AUTHENTICATED_FULLY'],
 	'/;**': ['ROLE_ADMIN' ,'IS_AUTHENTICATED_FULLY'],
+	'/index': ['ROLE_ADMIN' ,'IS_AUTHENTICATED_FULLY'],
 	'/acp': ['ROLE_ADMIN' ,'IS_AUTHENTICATED_FULLY'],
 ]
 
@@ -124,5 +159,20 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.globallog
 grails.plugins.springsecurity.authority.className = 'com.globallogic.cinemark.security.Role'
 grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/login/authSuccess"
 //grails.plugins.springsecurity.securityConfigType = "InterceptUrlMap"
-grails.plugins.springsecurity.logout.afterLogoutUrl = '/_ssl_/log_ad'
-grails.security.passwordValidUrl = "/_ssl_/log_ad"
+grails.plugins.springsecurity.logout.afterLogoutUrl = '/login/auth'
+grails.security.passwordValidUrl = "/login/auth"
+
+jcaptchas {
+	image = new GenericManageableCaptchaService (
+			new GenericCaptchaEngine(
+				new GimpyFactory(
+					new RandomWordGenerator("ABCDFGHJKLMNPQRSTVWXYZ123456789"),
+					new ComposedWordToImage(
+						new RandomFontGenerator(20,30,[new Font ("Arial" ,0,10)]as Font[]),
+						new GradientBackgroundGenerator(
+							160,40,	new SingleColorGenerator(new Color(0,60,0)), new SingleColorGenerator(new Color(20,20,20))
+						), new NonLinearTextPaster(6,6,new Color(0,255,0))
+					)
+				)
+			),180,180000)
+}

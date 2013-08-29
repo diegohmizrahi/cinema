@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="bootstrap"/>
-		<title>Fanta Comic Book</title>
+		<title>Cinemark</title>
 	</head>
 
 	<body>

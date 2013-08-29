@@ -3,7 +3,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title><g:layoutTitle default="${meta(name: 'app.name')}"/></title>
+		<title>Cinemark</title>
 		<meta name="description" content="">
 		<meta name="author" content="">
 
@@ -37,12 +37,13 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					
+					<sec:ifAllGranted roles="ROLE_ADMIN">
 					<a class="brand" href="${createLink(uri: '/')}">Cinemark</a>
 
 					<div class="nav-collapse">
 						<ul class="nav">							
 							<li	<%= request.forwardURI == "${createLink(uri: '/_ssl_/log_ad')}" ? ' class="active"' : '' %>><a href="${createLink(uri: '/_ssl_/log_ad')}">Home</a></li>
+							<li <%=entityName == "User" ? ' class="active"' : ''%>><g:link controller="User" action="list">${message(code: 'user.label', default: 'User')}</g:link></li>
 							<li <%=entityName == "Theater" ? ' class="active"' : ''%>><g:link controller="Theater" action="list">${message(code: 'theater.label', default: 'Theater')}</g:link></li>
 							<li <%=entityName == "Cinema" ? ' class="active"' : ''%>><g:link controller="Cinema" action="list">${message(code: 'cinema.label', default: 'Cinema')}</g:link></li>
 							<li <%=entityName == "SeatSection" ? ' class="active"' : ''%>><g:link controller="SeatSection" action="list">${message(code: 'seatSection.label', default: 'SeatSection')}</g:link></li>
@@ -51,6 +52,7 @@
 							<li <%=entityName == "Schedules" ? ' class="active"' : ''%>><g:link controller="Schedules" action="list">${message(code: 'schedules.label', default: 'Schedules')}</g:link></li>
 						</ul>
 					</div>
+				</sec:ifAllGranted>
 				</div>
 			</div>
 		</nav>

@@ -1,4 +1,4 @@
-<%@ page import="com.globallogic.comicbook.security.User" %>
+<%@ page import="com.globallogic.cinemark.security.User" %>
 <!doctype html>
 <html>
 	<head>
