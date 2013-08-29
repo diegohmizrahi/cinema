@@ -2,6 +2,8 @@ package com.globallogic.cinemark
 
 import org.springframework.dao.DataIntegrityViolationException
 
+import com.globallogic.cinemark.utils.DateUtils
+
 class ShowTimesController {
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
@@ -22,6 +24,11 @@ class ShowTimesController {
 			break
 		case 'POST':
 	        def showTimesInstance = new ShowTimes(params)
+			if (DateUtils.compareDateDifferenceDays(showTimesInstance.fromDate, showTimesInstance.untilDate)<0) {
+				flash.message = message(code: 'shotimes.invalidDates')
+				render view: 'create', model: [showTimesInstance: showTimesInstance]
+				return
+			}
 	        if (!showTimesInstance.save(flush: true)) {
 	            render view: 'create', model: [showTimesInstance: showTimesInstance]
 	            return

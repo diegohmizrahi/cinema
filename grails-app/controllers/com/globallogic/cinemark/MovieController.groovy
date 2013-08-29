@@ -22,6 +22,12 @@ class MovieController {
 			break
 		case 'POST':
 	        def movieInstance = new Movie(params)
+			movieInstance.picUrl = params.picUrl 
+			movieInstance.actors = params.actors
+			movieInstance.director = params.director
+			movieInstance.trailerUrl = params.trailerUrl
+			movieInstance.year = params.year as Integer
+			movieInstance.genre = params.genre 
 	        if (!movieInstance.save(flush: true)) {
 	            render view: 'create', model: [movieInstance: movieInstance]
 	            return
@@ -107,3 +113,4 @@ class MovieController {
         }
     }
 }
+

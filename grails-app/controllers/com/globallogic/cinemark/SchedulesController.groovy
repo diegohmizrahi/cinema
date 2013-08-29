@@ -22,7 +22,19 @@ class SchedulesController {
 			break
 		case 'POST':
 	        def schedulesInstance = new Schedules(params)
-	        if (!schedulesInstance.save(flush: true)) {
+			if ((params.hours as Integer) < 0 || (params.hours  as Integer) > 24 || (params.minutes  as Integer) < 0 || (params.minutes  as Integer) > 59) {
+				flash.message = message(code: 'schedules.time.error')
+				render view: 'create', model: [schedulesInstance: schedulesInstance]
+			}
+			if (params.hours?.length() < 2) 
+				params.hours = '0' + params.hours
+			
+			if (params.minutes?.length() < 2)
+				params.minutes = '0' + params.minutes
+				
+			schedulesInstance.time = params.hours + ":" + params.minutes 
+
+			if (!schedulesInstance.save(flush: true)) {
 	            render view: 'create', model: [schedulesInstance: schedulesInstance]
 	            return
 	        }
