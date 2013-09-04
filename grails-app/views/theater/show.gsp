@@ -57,16 +57,7 @@
 							</g:each>
 						
 					</g:if>
-				
-					<g:if test="${theaterInstance?.movies}">
-						<dt><g:message code="theater.movies.label" default="Movies" /></dt>
-						
-							<g:each in="${theaterInstance.movies}" var="m">
-							<dd><g:link controller="movie" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></dd>
-							</g:each>
-						
-					</g:if>
-				
+					
 					<g:if test="${theaterInstance?.name}">
 						<dt><g:message code="theater.name.label" default="Name" /></dt>
 						

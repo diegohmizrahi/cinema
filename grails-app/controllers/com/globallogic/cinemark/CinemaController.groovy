@@ -1,8 +1,11 @@
 package com.globallogic.cinemark
 
 import org.springframework.dao.DataIntegrityViolationException
+import com.globallogic.cinemark.utils.ValidatorUtils
+import com.globallogic.cinemark.constants.Codes
+import com.globallogic.cinemark.exceptions.CinemarkException
 
-class CinemaController {
+class CinemaController extends CinemarkController {
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
@@ -106,4 +109,18 @@ class CinemaController {
             redirect action: 'show', id: params.id
         }
     }
+	
+	def cinemas = {
+		def resp = checkedOperation {
+			ValidatorUtils.validateAllNullOrEmpty(params.id)
+			def theater = Theater.get(params.id)
+			if (!theater) 
+				throw new CinemarkException(Codes.INVALID_THEATER)
+			def cinemas = Cinema.executeQuery("FROM Cinema c WHERE c.theater = :theater",[theater:theater])
+			if (!cinemas)
+				throw new CinemarkException(Codes.NO_AVAILABLE_CINEMAS)
+			[code:Codes.OK_CODE.code, message: Codes.OK_CODE.message, cinemas: buildDTOList(cinemas)]
+		}
+		render resp
+	}
 }

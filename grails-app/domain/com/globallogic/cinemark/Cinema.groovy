@@ -1,5 +1,7 @@
 package com.globallogic.cinemark
 
+import java.util.List;
+
 import com.globallogic.cinemark.enums.CinemaType
 
 class Cinema {
@@ -15,4 +17,20 @@ class Cinema {
 		cinemaType nullable: false, blank: false
 		theater nullable: false, blank: false	
     }
+	
+	def buildDTO(){
+		def dto = [
+			number: this.cinemaNumber,
+			type: this.cinemaType.type,
+		]
+		return dto
+	}
+	
+	public static def buildDTOList(List<Cinema> cinema){
+		List cinemaDTOList = new ArrayList();
+		for (c in cinema) {
+			cinemaDTOList.add(c.buildDTO());
+		}
+		return cinemaDTOList;
+	}
 }

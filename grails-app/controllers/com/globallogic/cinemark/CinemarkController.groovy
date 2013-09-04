@@ -1,18 +1,12 @@
 package com.globallogic.cinemark
 
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 import grails.converters.JSON
-
 import javax.xml.bind.ValidationException
-
-import org.codehaus.groovy.grails.web.json.JSONObject
 
 import com.globallogic.cinemark.constants.Codes
 import com.globallogic.cinemark.exceptions.CinemarkException
-import com.octo.captcha.service.CaptchaServiceException
 
 class CinemarkController {
 
@@ -22,16 +16,27 @@ class CinemarkController {
 		def returnObject
 		try {
 			closure.response.setHeader("Access-Control-Allow-Origin", "*") //Allows cross-domain origin
-			returnObject = closure() as JSON
+			
+			returnObject = closure()
 		} catch (CinemarkException e) {
-			returnObject = [code:e.code.code,message:e.code.message] as JSON
+			returnObject = [code:e.code.code,message:e.code.message] 
 		} catch (ValidationException e) {
-			returnObject = [code:450,message:e.message] as JSON
+			closure.response.setStatus(400)
+			returnObject = [code:450,message:e.message]
 			log.error("ValidationException: " + e.message)
 		} catch (Exception e) {
-			returnObject = [code:Codes.UNEXPECTED_ERROR.code,message:e.message] as JSON
+			closure.response.setStatus(500)
+			returnObject = [code:Codes.UNEXPECTED_ERROR.code,message:e.message]
 		}
-		returnObject
+		returnObject as JSON
+	}
+	
+	def buildDTOList(def obs){
+		List dtoList = new ArrayList();
+		obs?.each() {
+			dtoList.add(it.buildDTO());
+		}
+		return dtoList;
 	}
 
 }
