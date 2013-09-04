@@ -1,20 +1,40 @@
 package com.globallogic.cinemark
 
+import java.util.List;
+
+import com.globallogic.cinemark.enums.SeatsSectionType
+
 class Seat {
 	
 	String row
-	Integer seatNumber
+	Integer column
+	SeatsSectionType seatSection
 	String email
 	String confirmationCode
 	Integer identificationNumber
-	ShowTimes showTime
-
 	
     static constraints = {
 		email nullable: true,email: true
 		confirmationCode nullable: true
 		identificationNumber nullable: true
-		row nullable: false, blank: false, unique: ['seatNumber','showTime']
-		seatNumber nullable: false, blank: false
+		row nullable: false, blank: false, unique: ['column','seatSection']
+		column nullable: false, blank: false
     }
+	
+	def buildDTO(){
+		def dto = [
+			row: this.row,
+			column: this.column,
+		]
+		return dto
+	}
+	
+	public static def buildDTOList(List<SeatSection> seats){
+		List seatDTOList = new ArrayList();
+		for (s in seats) {
+			seatDTOList.add(s.buildDTO());
+		}
+		return seatDTOList;
+	}
+	
 }

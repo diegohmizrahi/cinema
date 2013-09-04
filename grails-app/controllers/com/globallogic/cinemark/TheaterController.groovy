@@ -115,27 +115,8 @@ class TheaterController extends CinemarkController {
 				response.setStatus(204)
 				[]
 			}else {
-				[code:Codes.OK_CODE.code, message: Codes.OK_CODE.message, theaters: buildDTOList(theaters)]
+				buildDTOList(theaters)
 			}
-		}
-		render resp
-	}
-	
-	def moviesByTheater = {
-		def resp = checkedOperation {
-			def theater = Theater.get(params.id)
-			if (!theater) {
-				response.setStatus(204)
-				return []
-			}
-				
-			def movies = ShowTimes.executeQuery("FROM ShowTimes st WHERE st.cinema.theater = :theater",[theater:theater])
-			if (!movies){
-				response.setStatus(204)
-				return []
-			}
-			
-			[code:Codes.OK_CODE.code, message: Codes.OK_CODE.message, movies: buildDTOList(movies)]
 		}
 		render resp
 	}

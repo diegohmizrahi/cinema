@@ -3,9 +3,10 @@ package com.globallogic.cinemark
 import org.springframework.dao.DataIntegrityViolationException
 
 import com.globallogic.cinemark.utils.DateUtils
+import com.globallogic.cinemark.enums.SeatsSectionType
 
-class ShowTimesController {
-
+class ShowTimesController extends CinemarkController {
+	
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
     def index() {
@@ -29,6 +30,8 @@ class ShowTimesController {
 				render view: 'create', model: [showTimesInstance: showTimesInstance]
 				return
 			}
+			showTimesInstance.fromDate.clearTime()
+			showTimesInstance.untilDate.clearTime()
 	        if (!showTimesInstance.save(flush: true)) {
 	            render view: 'create', model: [showTimesInstance: showTimesInstance]
 	            return
@@ -113,4 +116,5 @@ class ShowTimesController {
             redirect action: 'show', id: params.id
         }
     }
+
 }

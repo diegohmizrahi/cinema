@@ -2,9 +2,11 @@ package com.globallogic.cinemark
 
 import org.springframework.dao.DataIntegrityViolationException
 
-class SchedulesController {
+class SchedulesController extends CinemarkController {
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
+	
+	def SchedulesService
 
     def index() {
         redirect action: 'list', params: params
@@ -118,4 +120,26 @@ class SchedulesController {
             redirect action: 'show', id: params.id
         }
     }
+	
+	def movieSchedules = {
+		
+		def resp = checkedOperation {
+			if (!params.movie || !params.theater) {
+					response.setStatus(400)
+					return []
+			}
+			def movie = Movie.get(params.movie)
+			def theater = Theater.get(params.theater)
+			
+			if (!movie || !theater) {
+				response.setStatus(204)
+				return []
+			}
+				
+			
+			
+			return schedulesService.getNextSchedules(theater,movie)
+		}
+		render resp
+	}
 }

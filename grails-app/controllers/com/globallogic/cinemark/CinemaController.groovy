@@ -2,13 +2,15 @@ package com.globallogic.cinemark
 
 import org.springframework.dao.DataIntegrityViolationException
 import com.globallogic.cinemark.utils.ValidatorUtils
+import com.globallogic.cinemark.utils.DateUtils
 import com.globallogic.cinemark.constants.Codes
 import com.globallogic.cinemark.exceptions.CinemarkException
 
 class CinemaController extends CinemarkController {
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
-
+	def cinemaService
+	
     def index() {
         redirect action: 'list', params: params
     }
@@ -120,6 +122,18 @@ class CinemaController extends CinemarkController {
 			if (!cinemas)
 				throw new CinemarkException(Codes.NO_AVAILABLE_CINEMAS)
 			[code:Codes.OK_CODE.code, message: Codes.OK_CODE.message, cinemas: buildDTOList(cinemas)]
+		}
+		render resp
+	}
+	
+	def moviesByTheater = {
+		def resp = checkedOperation {
+			def cinemas = cinemaService.getCinemas(params)
+			if (!cinemas) {
+				response.setStatus(204)
+				return []
+			}
+			return cinemas
 		}
 		render resp
 	}

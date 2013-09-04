@@ -31,7 +31,7 @@ class CinemarkController {
 		returnObject as JSON
 	}
 	
-	def buildDTOList(def obs){
+	def List buildDTOList(def obs){
 		List dtoList = new ArrayList();
 		obs?.each() {
 			dtoList.add(it.buildDTO());

@@ -10,7 +10,7 @@ class Cinema {
 	CinemaType cinemaType
 	Theater theater
 	
-	static hasMany = { seatSections: SeatSection }
+	static hasMany = [ seatSections: SeatSection ]
 	
     static constraints = {
 		cinemaNumber unique: ['theater'], nullable: false, blank: false
@@ -26,11 +26,4 @@ class Cinema {
 		return dto
 	}
 	
-	public static def buildDTOList(List<Cinema> cinema){
-		List cinemaDTOList = new ArrayList();
-		for (c in cinema) {
-			cinemaDTOList.add(c.buildDTO());
-		}
-		return cinemaDTOList;
-	}
 }
