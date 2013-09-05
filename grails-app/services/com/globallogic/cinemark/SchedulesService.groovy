@@ -16,7 +16,7 @@ class SchedulesService {
 					aux."${sec.type.section.toLowerCase()}"= sec.buildDTO()
 					sc.takenSeats?.each { taken ->
 						if (taken?.seatSection.equals(sec.type)) {
-							aux."${sec.type.section.toLowerCase()}".takenSeats.add(taken.first().buildDTO())
+							aux."${sec.type.section.toLowerCase()}".takenSeats.add(taken.buildDTO())
 							
 						}
 					}
