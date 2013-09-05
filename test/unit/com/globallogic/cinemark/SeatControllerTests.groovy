@@ -4,6 +4,7 @@ package com.globallogic.cinemark
 
 import org.junit.*
 import grails.test.mixin.*
+import com.globallogic.cinemark.enums.SeatsSectionType
 
 @TestFor(SeatController)
 @Mock(Seat)
@@ -13,6 +14,9 @@ class SeatControllerTests {
         assert params != null
         // TODO: Populate valid properties like...
         //params["name"] = 'someValidName'
+		params["row"] = 20
+		params["column"] = 20
+		params["seatSection"] = SeatsSectionType.LEFT
     }
 
     void testIndex() {
@@ -29,21 +33,23 @@ class SeatControllerTests {
     }
 
     void testCreate() {
+		request.method = "GET"
         def model = controller.create()
 
         assert model.seatInstance != null
     }
 
     void testSave() {
-        controller.save()
+		request.method = "GET"
+        def model = controller.create()
 
         assert model.seatInstance != null
-        assert view == '/seat/create'
 
         response.reset()
 
         populateValidParams(params)
-        controller.save()
+		request.method = "POST"
+        controller.create()
 
         assert response.redirectedUrl == '/seat/show/1'
         assert controller.flash.message != null
@@ -68,26 +74,9 @@ class SeatControllerTests {
         assert model.seatInstance == seat
     }
 
-    void testEdit() {
-        controller.edit()
-
-        assert flash.message != null
-        assert response.redirectedUrl == '/seat/list'
-
-        populateValidParams(params)
-        def seat = new Seat(params)
-
-        assert seat.save() != null
-
-        params.id = seat.id
-
-        def model = controller.edit()
-
-        assert model.seatInstance == seat
-    }
-
     void testUpdate() {
-        controller.update()
+		request.method = "GET"
+        controller.edit()
 
         assert flash.message != null
         assert response.redirectedUrl == '/seat/list'
@@ -102,16 +91,15 @@ class SeatControllerTests {
         // test invalid parameters in update
         params.id = seat.id
         //TODO: add invalid values to params object
+		
+		request.method = "POST"
+        controller.edit()
 
-        controller.update()
-
-        assert view == "/seat/edit"
-        assert model.seatInstance != null
-
+		response.reset()
         seat.clearErrors()
 
         populateValidParams(params)
-        controller.update()
+        controller.edit()
 
         assert response.redirectedUrl == "/seat/show/$seat.id"
         assert flash.message != null
@@ -123,7 +111,7 @@ class SeatControllerTests {
         populateValidParams(params)
         params.id = seat.id
         params.version = -1
-        controller.update()
+        controller.edit()
 
         assert view == "/seat/edit"
         assert model.seatInstance != null

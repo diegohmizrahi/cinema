@@ -18,9 +18,10 @@ class SeatSectionControllerTests {
 		def theater = Theater.get(1)?:new Theater(name:"test theater", address:"testaddress 123", phone: 39859394).save()
 		def cinema = Cinema.get(1)?:new Cinema(cinemaNumber:1, theater:theater, cinemaType: CinemaType.XD).save()
 		params["rows"] = 1
-		params["columns"] = theater
-		params["type"] = SeatsSectionType.LEFT.section
+		params["columns"] = 1
+		params["type"] = SeatsSectionType.LEFT
 		params["cinema"] = cinema
+		params["id"] = 1
     }
 
     void testIndex() {
@@ -53,6 +54,7 @@ class SeatSectionControllerTests {
 
         populateValidParams(params)
 		request.method = "POST"
+		
         controller.create()
 
         assert response.redirectedUrl == '/seatSection/show/1'
@@ -81,26 +83,9 @@ class SeatSectionControllerTests {
 		
     }
 
-    void testEdit() {
-        controller.edit()
-
-        assert flash.message != null
-        assert response.redirectedUrl == '/seatSection/list'
-
-        populateValidParams(params)
-        def seatSection = new SeatSection(params)
-
-        assert seatSection.save() != null
-
-        params.id = seatSection.id
-
-        def model = controller.edit()
-
-        assert model.seatSectionInstance == seatSection
-    }
-
     void testUpdate() {
-        controller.update()
+        request.method = "GET"
+		controller.edit()
 
         assert flash.message != null
         assert response.redirectedUrl == '/seatSection/list'
@@ -116,15 +101,14 @@ class SeatSectionControllerTests {
         params.id = seatSection.id
         //TODO: add invalid values to params object
 
-        controller.update()
+       request.method = "POST"
+		controller.edit()
 
-        assert view == "/seatSection/edit"
-        assert model.seatSectionInstance != null
-
+		response.reset()
         seatSection.clearErrors()
 
         populateValidParams(params)
-        controller.update()
+        controller.edit()
 
         assert response.redirectedUrl == "/seatSection/show/$seatSection.id"
         assert flash.message != null
@@ -136,7 +120,7 @@ class SeatSectionControllerTests {
         populateValidParams(params)
         params.id = seatSection.id
         params.version = -1
-        controller.update()
+        controller.edit()
 
         assert view == "/seatSection/edit"
         assert model.seatSectionInstance != null

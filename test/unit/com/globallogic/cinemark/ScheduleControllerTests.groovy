@@ -4,20 +4,28 @@ package com.globallogic.cinemark
 
 import org.junit.*
 import grails.test.mixin.*
+import com.globallogic.cinemark.enums.CinemaType
 
 @TestFor(ScheduleController)
-@Mock(Schedule)
+@Mock([ShowTime,Cinema,Movie,Theater,Schedule])
 class ScheduleControllerTests {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
         //params["name"] = 'someValidName'
+		def theater = Theater.get(1)?:new Theater(name:"test theater", address:"testaddress 123", phone: 39859394).save()
+		def cinema = Cinema.get(1)?:new Cinema(cinemaNumber:1, theater:theater, cinemaType: CinemaType.XD).save()
+		def movie = Movie.get(1)?: new Movie(title:"Los indestructibles 2",imdbId:"ajf43d",summary:"movie summary",actors:"many",picUrl:"http://some.url",trailerUrl:"http://some.url",genre:"Acción",director:"SomeDirector",year:2012).save()
+		def showTime = ShowTime.get(1)?: new ShowTime(price:12,movie:movie,fromDate:new Date().clearTime(),untilDate:new Date().clearTime(),cinema:cinema).save()
+		
+		params["time"] = "22:00"
+		params["showTime"] = showTime
     }
 
     void testIndex() {
         controller.index()
-        assert "/schedules/list" == response.redirectedUrl
+        assert "/schedule/list" == response.redirectedUrl
     }
 
     void testList() {
@@ -29,23 +37,26 @@ class ScheduleControllerTests {
     }
 
     void testCreate() {
+        request.method = "GET"
         def model = controller.create()
-
         assert model.schedulesInstance != null
     }
 
     void testSave() {
-        controller.save()
+		request.method = "GET"
+		populateValidParams(params)
+        def model = controller.create()
 
         assert model.schedulesInstance != null
-        assert view == '/schedules/create'
 
-        response.reset()
+		        response.reset()
 
         populateValidParams(params)
-        controller.save()
+		request.method = "POST"
+		
+        controller.create()
 
-        assert response.redirectedUrl == '/schedules/show/1'
+        assert response.redirectedUrl == '/schedule/show/1'
         assert controller.flash.message != null
         assert Schedule.count() == 1
     }
@@ -54,7 +65,7 @@ class ScheduleControllerTests {
         controller.show()
 
         assert flash.message != null
-        assert response.redirectedUrl == '/schedules/list'
+        assert response.redirectedUrl == '/schedule/list'
 
         populateValidParams(params)
         def schedules = new Schedule(params)
@@ -68,29 +79,12 @@ class ScheduleControllerTests {
         assert model.schedulesInstance == schedules
     }
 
-    void testEdit() {
-        controller.edit()
-
-        assert flash.message != null
-        assert response.redirectedUrl == '/schedules/list'
-
-        populateValidParams(params)
-        def schedules = new Schedule(params)
-
-        assert schedules.save() != null
-
-        params.id = schedules.id
-
-        def model = controller.edit()
-
-        assert model.schedulesInstance == schedules
-    }
-
     void testUpdate() {
-        controller.update()
+        request.method = "GET"
+		controller.edit()
 
         assert flash.message != null
-        assert response.redirectedUrl == '/schedules/list'
+        assert response.redirectedUrl == '/schedule/list'
 
         response.reset()
 
@@ -102,18 +96,17 @@ class ScheduleControllerTests {
         // test invalid parameters in update
         params.id = schedules.id
         //TODO: add invalid values to params object
-
-        controller.update()
-
-        assert view == "/schedules/edit"
-        assert model.schedulesInstance != null
-
+		
+		request.method = "POST"
+        controller.edit()
+		
+		response.reset()
         schedules.clearErrors()
 
         populateValidParams(params)
-        controller.update()
+        controller.edit()
 
-        assert response.redirectedUrl == "/schedules/show/$schedules.id"
+        assert response.redirectedUrl == "/schedule/show/$schedules.id"
         assert flash.message != null
 
         //test outdated version number
@@ -123,9 +116,9 @@ class ScheduleControllerTests {
         populateValidParams(params)
         params.id = schedules.id
         params.version = -1
-        controller.update()
+        controller.edit()
 
-        assert view == "/schedules/edit"
+        assert view == "/schedule/edit"
         assert model.schedulesInstance != null
         assert model.schedulesInstance.errors.getFieldError('version')
         assert flash.message != null
@@ -134,7 +127,7 @@ class ScheduleControllerTests {
     void testDelete() {
         controller.delete()
         assert flash.message != null
-        assert response.redirectedUrl == '/schedules/list'
+        assert response.redirectedUrl == '/schedule/list'
 
         response.reset()
 
@@ -150,6 +143,6 @@ class ScheduleControllerTests {
 
         assert Schedule.count() == 0
         assert Schedule.get(schedules.id) == null
-        assert response.redirectedUrl == '/schedules/list'
+        assert response.redirectedUrl == '/schedule/list'
     }
 }
