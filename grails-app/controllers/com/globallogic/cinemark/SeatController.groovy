@@ -111,8 +111,6 @@ class SeatController extends CinemarkController{
 	
 	def bookSeats = {
 		def resp = checkedOperation {
-			println "LALALALALA :))))"
-			println params.schedule
 			if (!params.schedule || !params.email || !params.dni || !params.seat) {
 				response.setStatus(400)
 				return []
