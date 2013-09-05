@@ -113,6 +113,20 @@ class MovieController extends CinemarkController {
         }
     }
 	
+	def getMovies = {
+		def resp = checkedOperation {
+			def movies = Movie.list()
+			if (!movies) {
+				response.setStatus(204)
+				[]
+			}else {
+				buildDTOList(movies)
+			}
+		}
+		render resp
+		
+	}
+	
 	def getMovieData = {
 		def resp = checkedOperation{
 		if (!params.id) {
