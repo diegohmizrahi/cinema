@@ -11,12 +11,12 @@ class SeatService {
 		def seatsList = new ArrayList()
 		def seat
 		def pendingSeats = new ArrayList()
-		if (!params.seat[1].size()==1) {
+		if (params.seat[1].size()>1) {
 			pendingSeats = params.seat as List
 		} else {
 			pendingSeats.add(params.seat)
 		}
-		println pendingSeats
+
 		pendingSeats.each {
 			seat = parseSeat(it)
 			def seatSection = SeatSection.findByCinemaAndType(schedule.showTime.cinema,seat.seatSection)

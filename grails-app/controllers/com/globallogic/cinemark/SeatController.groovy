@@ -4,7 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class SeatController extends CinemarkController{
 
-    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST', bookSeats:'GET']
+    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST', bookSeats:'POST']
 	
 	def seatService
 
@@ -111,6 +111,8 @@ class SeatController extends CinemarkController{
 	
 	def bookSeats = {
 		def resp = checkedOperation {
+			println "LALALALALA :))))"
+			println params.schedule
 			if (!params.schedule || !params.email || !params.dni || !params.seat) {
 				response.setStatus(400)
 				return []
