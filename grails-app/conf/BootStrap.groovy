@@ -7,8 +7,8 @@ import com.globallogic.cinemark.Cinema
 import com.globallogic.cinemark.Seat
 import com.globallogic.cinemark.Movie
 import com.globallogic.cinemark.SeatSection
-import com.globallogic.cinemark.ShowTimes
-import com.globallogic.cinemark.Schedules
+import com.globallogic.cinemark.ShowTime
+import com.globallogic.cinemark.Schedule
 import com.globallogic.cinemark.enums.CinemaType
 import com.globallogic.cinemark.enums.SeatsSectionType;
 class BootStrap {
@@ -87,7 +87,7 @@ class BootStrap {
 						year: 2010
 					).save(flush:true)
 					
-					def showTime = new ShowTimes(
+					def showTime = new ShowTime(
 						price: 12,
 						movie: movie,
 						fromDate: new Date().clearTime(),
@@ -102,7 +102,7 @@ class BootStrap {
 							email: "tetin@te.com",
 							confirmationCode:"aslhj399",
 							identificationNumber:39939493).save(flush:true)
-						def schedule = new Schedules(
+						def schedule = new Schedule(
 							time: "22:00",
 							showTime: showTime,
 							takenSeats: [seat]
