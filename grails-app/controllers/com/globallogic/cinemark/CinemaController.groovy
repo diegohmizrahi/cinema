@@ -8,7 +8,7 @@ import com.globallogic.cinemark.exceptions.CinemarkException
 
 class CinemaController extends CinemarkController {
 
-    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
+    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST', moviesByTheater: 'GET']
 	def cinemaService
 	
     def index() {
@@ -111,20 +111,6 @@ class CinemaController extends CinemarkController {
             redirect action: 'show', id: params.id
         }
     }
-	
-	def cinemas = {
-		def resp = checkedOperation {
-			ValidatorUtils.validateAllNullOrEmpty(params.id)
-			def theater = Theater.get(params.id)
-			if (!theater) 
-				throw new CinemarkException(Codes.INVALID_THEATER)
-			def cinemas = Cinema.executeQuery("FROM Cinema c WHERE c.theater = :theater",[theater:theater])
-			if (!cinemas)
-				throw new CinemarkException(Codes.NO_AVAILABLE_CINEMAS)
-			[code:Codes.OK_CODE.code, message: Codes.OK_CODE.message, cinemas: buildDTOList(cinemas)]
-		}
-		render resp
-	}
 	
 	def moviesByTheater = {
 		def resp = checkedOperation {

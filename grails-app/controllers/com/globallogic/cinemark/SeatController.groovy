@@ -2,7 +2,7 @@ package com.globallogic.cinemark
 
 import org.springframework.dao.DataIntegrityViolationException
 
-class SeatController {
+class SeatController extends CinemarkController{
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
 
@@ -106,4 +106,14 @@ class SeatController {
             redirect action: 'show', id: params.id
         }
     }
+	
+	def bookSeats = {
+		def resp = checkedOperation {
+			if (!params.showTime || !params.email || !params.dni || !params.seat) {
+				response.setStatus(400)
+				return []
+			}			
+		}
+		render resp
+	}
 }

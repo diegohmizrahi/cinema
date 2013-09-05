@@ -13,10 +13,10 @@ class SchedulesService {
 			schedules.each { sc ->
 				aux = sc.buildDTO()
 				st.cinema?.seatSections?.each { sec ->
-					aux."${sec.type.section}"= sec.buildDTO()
+					aux."${sec.type.section.toLowerCase()}"= sec.buildDTO()
 					sc.takenSeats?.each { taken ->
 						if (taken?.seatSection.equals(sec.type)) {
-							aux."${sec.type.section}".takenSeats.add(taken.first().buildDTO())
+							aux."${sec.type.section.toLowerCase()}".takenSeats.add(taken.first().buildDTO())
 							
 						}
 					}

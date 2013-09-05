@@ -5,7 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class TheaterController extends CinemarkController {
 
-    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
+    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST', getTheaters: 'GET']
 
     def index() {
         redirect action: 'list', params: params
@@ -108,7 +108,7 @@ class TheaterController extends CinemarkController {
         }
     }
 	
-	def theaters = {
+	def getTheaters = {
 		def resp = checkedOperation {
 			def theaters = Theater.list()
 			if (!theaters) {

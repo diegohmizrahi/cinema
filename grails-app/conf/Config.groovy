@@ -132,6 +132,7 @@ grails.plugins.springsecurity.useSessionFixationPrevention = true
 
 grails.plugins.springsecurity.securityConfigType = SecurityConfigType.InterceptUrlMap
 grails.plugins.springsecurity.interceptUrlMap = [
+	'/resources/**':  ['IS_AUTHENTICATED_ANONYMOUSLY'],
 	'/login/**':  ['IS_AUTHENTICATED_ANONYMOUSLY'],
 	'/logout/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],
 	'/images/**': ['IS_AUTHENTICATED_ANONYMOUSLY'],

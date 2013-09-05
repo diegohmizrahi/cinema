@@ -16,6 +16,26 @@ class Movie {
 		title nullable: false, blank: false
     }
 	
+	def beforeInsert() {
+		summary = summary.encodeAsHTML()
+		director = director.encodeAsHTML()
+		genre = genre.encodeAsHTML()
+		title = title.encodeAsHTML()
+		actors = actors.encodeAsHTML()
+		picUrl = picUrl.encodeAsHTML()
+		trailerUrl = trailerUrl.encodeAsHTML()
+	 }
+	
+	def beforeUpdate() {
+		summary = summary.encodeAsHTML()
+		director = director.encodeAsHTML()
+		genre = genre.encodeAsHTML()
+		title = title.encodeAsHTML()
+		actors = actors.encodeAsHTML()
+		picUrl = picUrl.encodeAsHTML()
+		trailerUrl = trailerUrl.encodeAsHTML()
+	 }
+	
 	def buildDTO() {
 		def dto = [
 			id: this.id,

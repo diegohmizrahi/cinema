@@ -4,7 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class SchedulesController extends CinemarkController {
 
-    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
+    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST', movieSchedules:'GET']
 	
 	def SchedulesService
 

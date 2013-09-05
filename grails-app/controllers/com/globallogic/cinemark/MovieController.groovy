@@ -2,9 +2,9 @@ package com.globallogic.cinemark
 
 import org.springframework.dao.DataIntegrityViolationException
 
-class MovieController {
+class MovieController extends CinemarkController {
 
-    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST']
+    static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST', getMovieData: 'GET']
 
     def index() {
         redirect action: 'list', params: params
@@ -112,5 +112,23 @@ class MovieController {
             redirect action: 'show', id: params.id
         }
     }
+	
+	def getMovieData = {
+		def resp = checkedOperation{
+		if (!params.id) {
+			response.setStatus(400)
+			return []
+		}
+		def movie = Movie.get(params.id)
+		if (!movie) {
+			response.setStatus(204)
+			return []
+		}
+		movie.summary = movie.summary.encodeAsHTML()
+		movie.buildDTO()
+		}
+		render resp
+		
+	}
 }
 
