@@ -85,16 +85,6 @@
 						
 					</g:if>
 				
-					<g:if test="${showTimesInstance?.takenSeats}">
-						<dt><g:message code="showTimes.takenSeats.label" default="Taken Seats" /></dt>
-						
-							<g:each in="${showTimesInstance.takenSeats}" var="t">
-							<dd><g:link controller="seat" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></dd>
-							</g:each>
-						
-					</g:if>
-				
-				
 				</dl>
 
 				<g:form>

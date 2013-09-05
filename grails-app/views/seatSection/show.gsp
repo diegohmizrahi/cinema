@@ -49,10 +49,10 @@
 						
 					</g:if>
 				
-					<g:if test="${seatSectionInstance?.colums}">
-						<dt><g:message code="seatSection.colums.label" default="Colums" /></dt>
+					<g:if test="${seatSectionInstance?.columns}">
+						<dt><g:message code="seatSection.columns.label" default="columns" /></dt>
 						
-							<dd><g:fieldValue bean="${seatSectionInstance}" field="colums"/></dd>
+							<dd><g:fieldValue bean="${seatSectionInstance}" field="columns"/></dd>
 						
 					</g:if>
 				

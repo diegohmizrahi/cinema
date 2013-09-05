@@ -46,7 +46,7 @@
 						
 							<th class="header"><g:message code="seatSection.cinema.label" default="Cinema" /></th>
 						
-							<g:sortableColumn property="colums" title="${message(code: 'seatSection.colums.label', default: 'Colums')}" />
+							<g:sortableColumn property="columns" title="${message(code: 'seatSection.columns.label', default: 'Columns')}" />
 						
 							<g:sortableColumn property="rows" title="${message(code: 'seatSection.rows.label', default: 'Rows')}" />
 						
@@ -60,7 +60,7 @@
 						<tr>
 							<td>Sala ${fieldValue(bean: seatSectionInstance, field: "cinema.cinemaNumber")} - ${seatSectionInstance?.cinema?.theater?.name }</td>
 						
-							<td>${fieldValue(bean: seatSectionInstance, field: "colums")}</td>
+							<td>${fieldValue(bean: seatSectionInstance, field: "columns")}</td>
 						
 							<td>${fieldValue(bean: seatSectionInstance, field: "rows")}</td>
 						

@@ -18,7 +18,7 @@
 		<g:message code="seatSection.colums.label" default="Colums" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="colums" type="number" value="${seatSectionInstance.colums}" required=""/>
+	<g:field name="columns" type="number" value="${seatSectionInstance.columns}" required=""/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: seatSectionInstance, field: 'rows', 'error')} required">
