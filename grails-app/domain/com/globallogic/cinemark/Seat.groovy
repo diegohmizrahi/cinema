@@ -23,8 +23,8 @@ class Seat {
 	
 	def buildDTO(){
 		def dto = [
-			row: this.row,
-			column: this.column,
+			row: this.row as Integer,
+			column: this.column as Integer,
 		]
 		return dto
 	}
