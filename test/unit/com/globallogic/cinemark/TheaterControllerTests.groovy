@@ -2,8 +2,9 @@ package com.globallogic.cinemark
 
 
 
-import org.junit.*
-import grails.test.mixin.*
+import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
+
 
 @TestFor(TheaterController)
 @Mock(Theater)
@@ -12,7 +13,9 @@ class TheaterControllerTests {
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        params["name"] = 'someValidName'
+		params["address"] = "ruta s/n"
+		params["phone"] = "389572838"
     }
 
     void testIndex() {
@@ -29,21 +32,23 @@ class TheaterControllerTests {
     }
 
     void testCreate() {
+		request.method = "GET"
         def model = controller.create()
-
+		
         assert model.theaterInstance != null
     }
 
     void testSave() {
-        controller.save()
+       request.method = "GET"
+	   populateValidParams(params)
+        def model = controller.create()
 
         assert model.theaterInstance != null
-        assert view == '/theater/create'
 
         response.reset()
 
-        populateValidParams(params)
-        controller.save()
+        request.method = "POST"
+        controller.create()
 
         assert response.redirectedUrl == '/theater/show/1'
         assert controller.flash.message != null
@@ -68,27 +73,10 @@ class TheaterControllerTests {
         assert model.theaterInstance == theater
     }
 
-    void testEdit() {
-        controller.edit()
-
-        assert flash.message != null
-        assert response.redirectedUrl == '/theater/list'
-
-        populateValidParams(params)
-        def theater = new Theater(params)
-
-        assert theater.save() != null
-
-        params.id = theater.id
-
-        def model = controller.edit()
-
-        assert model.theaterInstance == theater
-    }
-
-    void testUpdate() {
-        controller.update()
-
+      void testUpdate() {
+		request.method = "GET"
+		controller.edit()
+		
         assert flash.message != null
         assert response.redirectedUrl == '/theater/list'
 
@@ -102,16 +90,15 @@ class TheaterControllerTests {
         // test invalid parameters in update
         params.id = theater.id
         //TODO: add invalid values to params object
+		request.method = "POST"
+        controller.edit()
 
-        controller.update()
-
-        assert view == "/theater/edit"
-        assert model.theaterInstance != null
-
+        //assert model.theaterInstance != null
+		response.reset()
         theater.clearErrors()
 
         populateValidParams(params)
-        controller.update()
+        controller.edit()
 
         assert response.redirectedUrl == "/theater/show/$theater.id"
         assert flash.message != null
@@ -123,9 +110,8 @@ class TheaterControllerTests {
         populateValidParams(params)
         params.id = theater.id
         params.version = -1
-        controller.update()
+        controller.edit()
 
-        assert view == "/theater/edit"
         assert model.theaterInstance != null
         assert model.theaterInstance.errors.getFieldError('version')
         assert flash.message != null

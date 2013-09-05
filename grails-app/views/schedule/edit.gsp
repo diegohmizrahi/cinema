@@ -1,14 +1,14 @@
-<%@ page import="com.globallogic.cinemark.Schedules" %>
+<%@ page import="com.globallogic.cinemark.Schedule" %>
 <!doctype html>
 <html>
 	<head>
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'schedules.label', default: 'Schedules')}" />
-		<title><g:message code="default.create.label" args="[entityName]" /></title>
+		<title><g:message code="default.edit.label" args="[entityName]" /></title>
 	</head>
 	<body>
 		<div class="row-fluid">
-			
+
 			<div class="span3">
 				<div class="well">
 					<ul class="nav nav-list">
@@ -19,9 +19,9 @@
 								<g:message code="default.list.label" args="[entityName]" />
 							</g:link>
 						</li>
-						<li class="active">
+						<li>
 							<g:link class="create" action="create">
-								<i class="icon-plus icon-white"></i>
+								<i class="icon-plus"></i>
 								<g:message code="default.create.label" args="[entityName]" />
 							</g:link>
 						</li>
@@ -32,7 +32,7 @@
 			<div class="span9">
 
 				<div class="page-header">
-					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+					<h1><g:message code="default.edit.label" args="[entityName]" /></h1>
 				</div>
 
 				<g:if test="${flash.message}">
@@ -50,19 +50,24 @@
 				</g:hasErrors>
 
 				<fieldset>
-					<g:form class="form-horizontal" action="create" >
+					<g:form class="form-horizontal" action="edit" id="${schedulesInstance?.id}" >
+						<g:hiddenField name="version" value="${schedulesInstance?.version}" />
 						<fieldset>
 							<g:render template="form" bean="schedulesInstance" />
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>
-									<g:message code="default.button.create.label" default="Create" />
+									<g:message code="default.button.update.label" default="Update" />
+								</button>
+								<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
+									<i class="icon-trash icon-white"></i>
+									<g:message code="default.button.delete.label" default="Delete" />
 								</button>
 							</div>
 						</fieldset>
 					</g:form>
 				</fieldset>
-				
+
 			</div>
 
 		</div>

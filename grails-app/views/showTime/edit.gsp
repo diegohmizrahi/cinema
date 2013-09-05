@@ -1,9 +1,9 @@
-<%@ page import="com.globallogic.cinemark.Schedules" %>
+<%@ page import="com.globallogic.cinemark.ShowTime" %>
 <!doctype html>
 <html>
 	<head>
 		<meta name="layout" content="bootstrap">
-		<g:set var="entityName" value="${message(code: 'schedules.label', default: 'Schedules')}" />
+		<g:set var="entityName" value="${message(code: 'showTimes.label', default: 'ShowTimes')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -39,10 +39,10 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<g:hasErrors bean="${schedulesInstance}">
+				<g:hasErrors bean="${showTimesInstance}">
 				<bootstrap:alert class="alert-error">
 				<ul>
-					<g:eachError bean="${schedulesInstance}" var="error">
+					<g:eachError bean="${showTimesInstance}" var="error">
 					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 					</g:eachError>
 				</ul>
@@ -50,10 +50,10 @@
 				</g:hasErrors>
 
 				<fieldset>
-					<g:form class="form-horizontal" action="edit" id="${schedulesInstance?.id}" >
-						<g:hiddenField name="version" value="${schedulesInstance?.version}" />
+					<g:form class="form-horizontal" action="edit" id="${showTimesInstance?.id}" >
+						<g:hiddenField name="version" value="${showTimesInstance?.version}" />
 						<fieldset>
-							<g:render template="form" bean="schedulesInstance" />
+							<g:render template="form" bean="showTimesInstance" />
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>

@@ -4,15 +4,20 @@ package com.globallogic.cinemark
 
 import org.junit.*
 import grails.test.mixin.*
+import com.globallogic.cinemark.enums.CinemaType
 
 @TestFor(CinemaController)
-@Mock(Cinema)
+@Mock([Cinema,Theater])
 class CinemaControllerTests {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+		def theater = Theater.get(1)?:new Theater(name:"test theater", address:"testaddress 123", phone: 39859394).save()
+        params["cinemaNumber"] = 1
+		params["theater"] = theater
+		params["cinemaType"] = CinemaType.XD
+		params["id"] = 1
     }
 
     void testIndex() {
@@ -28,22 +33,24 @@ class CinemaControllerTests {
         assert model.cinemaInstanceTotal == 0
     }
 
-    void testCreate() {
+  void testCreate() {
+		request.method = "GET"
         def model = controller.create()
-
+		
         assert model.cinemaInstance != null
     }
 
     void testSave() {
-        controller.save()
+       request.method = "GET"
+	   populateValidParams(params)
+        def model = controller.create()
 
         assert model.cinemaInstance != null
-        assert view == '/cinema/create'
 
         response.reset()
 
-        populateValidParams(params)
-        controller.save()
+        request.method = "POST"
+        controller.create()
 
         assert response.redirectedUrl == '/cinema/show/1'
         assert controller.flash.message != null
@@ -68,27 +75,10 @@ class CinemaControllerTests {
         assert model.cinemaInstance == cinema
     }
 
-    void testEdit() {
-        controller.edit()
-
-        assert flash.message != null
-        assert response.redirectedUrl == '/cinema/list'
-
-        populateValidParams(params)
-        def cinema = new Cinema(params)
-
-        assert cinema.save() != null
-
-        params.id = cinema.id
-
-        def model = controller.edit()
-
-        assert model.cinemaInstance == cinema
-    }
-
-    void testUpdate() {
-        controller.update()
-
+      void testUpdate() {
+		request.method = "GET"
+		controller.edit()
+		
         assert flash.message != null
         assert response.redirectedUrl == '/cinema/list'
 
@@ -102,16 +92,15 @@ class CinemaControllerTests {
         // test invalid parameters in update
         params.id = cinema.id
         //TODO: add invalid values to params object
+		request.method = "POST"
+        controller.edit()
 
-        controller.update()
-
-        assert view == "/cinema/edit"
-        assert model.cinemaInstance != null
-
+		response.reset()
         cinema.clearErrors()
 
         populateValidParams(params)
-        controller.update()
+		params["cinemaNumber"] = 2
+        controller.edit()
 
         assert response.redirectedUrl == "/cinema/show/$cinema.id"
         assert flash.message != null
@@ -123,9 +112,8 @@ class CinemaControllerTests {
         populateValidParams(params)
         params.id = cinema.id
         params.version = -1
-        controller.update()
+        controller.edit()
 
-        assert view == "/cinema/edit"
         assert model.cinemaInstance != null
         assert model.cinemaInstance.errors.getFieldError('version')
         assert flash.message != null
@@ -142,14 +130,14 @@ class CinemaControllerTests {
         def cinema = new Cinema(params)
 
         assert cinema.save() != null
-        assert Cinema.count() == 1
+        assert cinema.count() == 1
 
         params.id = cinema.id
 
         controller.delete()
 
-        assert Cinema.count() == 0
-        assert Cinema.get(cinema.id) == null
+        assert cinema.count() == 0
+        assert cinema.get(cinema.id) == null
         assert response.redirectedUrl == '/cinema/list'
     }
 }

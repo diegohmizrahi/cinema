@@ -5,9 +5,9 @@ package com.globallogic.cinemark
 import org.junit.*
 import grails.test.mixin.*
 
-@TestFor(ShowTimesController)
-@Mock(ShowTimes)
-class ShowTimesControllerTests {
+@TestFor(ShowTimeController)
+@Mock(ShowTime)
+class ShowTimeControllerTests {
 
     def populateValidParams(params) {
         assert params != null
@@ -47,7 +47,7 @@ class ShowTimesControllerTests {
 
         assert response.redirectedUrl == '/showTimes/show/1'
         assert controller.flash.message != null
-        assert ShowTimes.count() == 1
+        assert ShowTime.count() == 1
     }
 
     void testShow() {
@@ -57,7 +57,7 @@ class ShowTimesControllerTests {
         assert response.redirectedUrl == '/showTimes/list'
 
         populateValidParams(params)
-        def showTimes = new ShowTimes(params)
+        def showTimes = new ShowTime(params)
 
         assert showTimes.save() != null
 
@@ -75,7 +75,7 @@ class ShowTimesControllerTests {
         assert response.redirectedUrl == '/showTimes/list'
 
         populateValidParams(params)
-        def showTimes = new ShowTimes(params)
+        def showTimes = new ShowTime(params)
 
         assert showTimes.save() != null
 
@@ -95,7 +95,7 @@ class ShowTimesControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def showTimes = new ShowTimes(params)
+        def showTimes = new ShowTime(params)
 
         assert showTimes.save() != null
 
@@ -139,17 +139,17 @@ class ShowTimesControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def showTimes = new ShowTimes(params)
+        def showTimes = new ShowTime(params)
 
         assert showTimes.save() != null
-        assert ShowTimes.count() == 1
+        assert ShowTime.count() == 1
 
         params.id = showTimes.id
 
         controller.delete()
 
-        assert ShowTimes.count() == 0
-        assert ShowTimes.get(showTimes.id) == null
+        assert ShowTime.count() == 0
+        assert ShowTime.get(showTimes.id) == null
         assert response.redirectedUrl == '/showTimes/list'
     }
 }

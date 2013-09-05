@@ -6,7 +6,7 @@ import java.util.UUID
 class SeatService {
 	
 	def bookSeats(params) {
-		def schedule = Schedules.get(params.schedule)
+		def schedule = Schedule.get(params.schedule)
 		def bool = true
 		def seatsList = new ArrayList()
 		def seat

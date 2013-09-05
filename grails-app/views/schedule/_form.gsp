@@ -1,4 +1,4 @@
-<%@ page import="com.globallogic.cinemark.Schedules" %>
+<%@ page import="com.globallogic.cinemark.Schedule" %>
 
 
 
@@ -7,7 +7,7 @@
 		<g:message code="schedules.showTime.label" default="Show Time" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="showTime" name="showTime.id" from="${com.globallogic.cinemark.ShowTimes.list()}" 	optionValue="${{it.movie?.title + ' - Sala ' + it.cinema?.cinemaNumber + ' - ' + it.cinema?.theater?.name}}"	optionKey="id" required="" value="${schedulesInstance?.showTime?.id}" class="many-to-one"/>
+	<g:select id="showTime" name="showTime.id" from="${com.globallogic.cinemark.ShowTime.list()}" 	optionValue="${{it.movie?.title + ' - Sala ' + it.cinema?.cinemaNumber + ' - ' + it.cinema?.theater?.name}}"	optionKey="id" required="" value="${schedulesInstance?.showTime?.id}" class="many-to-one"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: schedulesInstance, field: 'time', 'error')} ">

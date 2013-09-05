@@ -1,10 +1,10 @@
 
-<%@ page import="com.globallogic.cinemark.Schedules" %>
+<%@ page import="com.globallogic.cinemark.ShowTime" %>
 <!doctype html>
 <html>
 	<head>
 		<meta name="layout" content="bootstrap">
-		<g:set var="entityName" value="${message(code: 'schedules.label', default: 'Schedules')}" />
+		<g:set var="entityName" value="${message(code: 'showTimes.label', default: 'ShowTimes')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -44,32 +44,44 @@
 					<thead>
 						<tr>
 						
-							<th class="header"><g:message code="schedules.showTime.label" default="Show Time" /></th>
+							<th class="header"><g:message code="showTimes.cinema.label" default="Cinema" /></th>
 						
-							<g:sortableColumn property="time" title="${message(code: 'schedules.time.label', default: 'Time')}" />
+							<g:sortableColumn property="fromDate" title="${message(code: 'showTimes.fromDate.label', default: 'From Date')}" />
+							
+							<g:sortableColumn property="untilDate" title="${message(code: 'showTimes.untilDate.label', default: 'Until Date')}" />
+						
+							<th class="header"><g:message code="showTimes.movie.label" default="Movie" /></th>
+						
+							<g:sortableColumn property="price" title="${message(code: 'showTimes.price.label', default: 'Price')}" />
+						
+							
 						
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-					<g:each in="${schedulesInstanceList}" var="schedulesInstance">
+					<g:each in="${showTimesInstanceList}" var="showTimesInstance">
 						<tr>
 						
-							<td>${schedulesInstance?.showTime?.movie?.title?.encodeAsHTML() + " - Sala " + schedulesInstance?.showTime?.cinema?.cinemaNumber?.encodeAsHTML() + " - " + schedulesInstance?.showTime?.cinema?.theater?.name?.encodeAsHTML()}</td>
-							
-							
+							<td>Sala ${fieldValue(bean: showTimesInstance, field: "cinema.cinemaNumber")}</td>
 						
-							<td>${fieldValue(bean: schedulesInstance, field: "time")}</td>
+							<td><g:formatDate date="${showTimesInstance.fromDate}" /></td>
+							
+							<td><g:formatDate date="${showTimesInstance.untilDate}" /></td>
+						
+							<td>${fieldValue(bean: showTimesInstance, field: "movie.title")}</td>
+						
+							<td>${fieldValue(bean: showTimesInstance, field: "price")}</td>
 						
 							<td class="link">
-								<g:link action="show" id="${schedulesInstance.id}" class="btn btn-small">Show &raquo;</g:link>
+								<g:link action="show" id="${showTimesInstance.id}" class="btn btn-small">Show &raquo;</g:link>
 							</td>
 						</tr>
 					</g:each>
 					</tbody>
 				</table>
 				<div class="pagination">
-					<bootstrap:paginate total="${schedulesInstanceTotal}" />
+					<bootstrap:paginate total="${showTimesInstanceTotal}" />
 				</div>
 			</div>
 

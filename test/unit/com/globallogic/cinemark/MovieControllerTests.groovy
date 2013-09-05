@@ -12,7 +12,15 @@ class MovieControllerTests {
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+		params["title"] = "Los indestructibles 2"
+		params["imdbId"] = "ajf43d"
+		params["summary"] = "movie summary"
+		params["actors"] = "many"
+		params["picUrl"] = "http://some.url"
+		params["trailerUrl"] = "http://some.url"
+		params["genre"] = "Acción"
+		params["director"] = "SomeDirector"
+		params["year"] = 2012
     }
 
     void testIndex() {
@@ -28,22 +36,24 @@ class MovieControllerTests {
         assert model.movieInstanceTotal == 0
     }
 
-    void testCreate() {
+  void testCreate() {
+		request.method = "GET"
         def model = controller.create()
-
+		
         assert model.movieInstance != null
     }
 
     void testSave() {
-        controller.save()
+       request.method = "GET"
+	   populateValidParams(params)
+        def model = controller.create()
 
         assert model.movieInstance != null
-        assert view == '/movie/create'
 
         response.reset()
 
-        populateValidParams(params)
-        controller.save()
+        request.method = "POST"
+        controller.create()
 
         assert response.redirectedUrl == '/movie/show/1'
         assert controller.flash.message != null
@@ -68,27 +78,10 @@ class MovieControllerTests {
         assert model.movieInstance == movie
     }
 
-    void testEdit() {
-        controller.edit()
-
-        assert flash.message != null
-        assert response.redirectedUrl == '/movie/list'
-
-        populateValidParams(params)
-        def movie = new Movie(params)
-
-        assert movie.save() != null
-
-        params.id = movie.id
-
-        def model = controller.edit()
-
-        assert model.movieInstance == movie
-    }
-
-    void testUpdate() {
-        controller.update()
-
+      void testUpdate() {
+		request.method = "GET"
+		controller.edit()
+		
         assert flash.message != null
         assert response.redirectedUrl == '/movie/list'
 
@@ -102,16 +95,15 @@ class MovieControllerTests {
         // test invalid parameters in update
         params.id = movie.id
         //TODO: add invalid values to params object
+		request.method = "POST"
+        controller.edit()
 
-        controller.update()
-
-        assert view == "/movie/edit"
-        assert model.movieInstance != null
-
+        //assert model.movieInstance != null
+		response.reset()
         movie.clearErrors()
 
         populateValidParams(params)
-        controller.update()
+        controller.edit()
 
         assert response.redirectedUrl == "/movie/show/$movie.id"
         assert flash.message != null
@@ -123,9 +115,8 @@ class MovieControllerTests {
         populateValidParams(params)
         params.id = movie.id
         params.version = -1
-        controller.update()
+        controller.edit()
 
-        assert view == "/movie/edit"
         assert model.movieInstance != null
         assert model.movieInstance.errors.getFieldError('version')
         assert flash.message != null
@@ -142,13 +133,13 @@ class MovieControllerTests {
         def movie = new Movie(params)
 
         assert movie.save() != null
-        assert Movie.count() == 1
+        assert movie.count() == 1
 
         params.id = movie.id
 
         controller.delete()
 
-        assert Movie.count() == 0
+        assert movie.count() == 0
         assert Movie.get(movie.id) == null
         assert response.redirectedUrl == '/movie/list'
     }

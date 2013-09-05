@@ -2,10 +2,10 @@ package com.globallogic.cinemark
 
 import java.util.List;
 
-class Schedules {
+class Schedule {
 	
 	String time
-	ShowTimes showTime
+	ShowTime showTime
 	static hasMany = [takenSeats: Seat]
 	
 	static constraints = {
@@ -22,7 +22,7 @@ class Schedules {
 		return dto
 	}
 	
-	public static def buildDTOList(List<Schedules> schedules){
+	public static def buildDTOList(List<Schedule> schedules){
 		List schedulesDTOList = new ArrayList();
 		for (sc in schedules) {
 			schedulesDTOList.add(sc.buildDTO());

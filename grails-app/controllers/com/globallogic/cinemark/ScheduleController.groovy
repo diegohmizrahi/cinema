@@ -2,11 +2,11 @@ package com.globallogic.cinemark
 
 import org.springframework.dao.DataIntegrityViolationException
 
-class SchedulesController extends CinemarkController {
+class ScheduleController extends CinemarkController {
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST', movieSchedules:'GET']
 	
-	def SchedulesService
+	def ScheduleService
 
     def index() {
         redirect action: 'list', params: params
@@ -14,16 +14,16 @@ class SchedulesController extends CinemarkController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [schedulesInstanceList: Schedules.list(params), schedulesInstanceTotal: Schedules.count()]
+        [schedulesInstanceList: Schedule.list(params), schedulesInstanceTotal: Schedule.count()]
     }
 
     def create() {
 		switch (request.method) {
 		case 'GET':
-        	[schedulesInstance: new Schedules(params)]
+        	[schedulesInstance: new Schedule(params)]
 			break
 		case 'POST':
-	        def schedulesInstance = new Schedules(params)
+	        def schedulesInstance = new Schedule(params)
 			if ((params.hours as Integer) < 0 || (params.hours  as Integer) > 24 || (params.minutes  as Integer) < 0 || (params.minutes  as Integer) > 59) {
 				flash.message = message(code: 'schedules.time.error')
 				render view: 'create', model: [schedulesInstance: schedulesInstance]
@@ -48,7 +48,7 @@ class SchedulesController extends CinemarkController {
     }
 
     def show() {
-        def schedulesInstance = Schedules.get(params.id)
+        def schedulesInstance = Schedule.get(params.id)
         if (!schedulesInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'schedules.label', default: 'Schedules'), params.id])
             redirect action: 'list'
@@ -61,7 +61,7 @@ class SchedulesController extends CinemarkController {
     def edit() {
 		switch (request.method) {
 		case 'GET':
-	        def schedulesInstance = Schedules.get(params.id)
+	        def schedulesInstance = Schedule.get(params.id)
 	        if (!schedulesInstance) {
 	            flash.message = message(code: 'default.not.found.message', args: [message(code: 'schedules.label', default: 'Schedules'), params.id])
 	            redirect action: 'list'
@@ -71,7 +71,7 @@ class SchedulesController extends CinemarkController {
 	        [schedulesInstance: schedulesInstance]
 			break
 		case 'POST':
-	        def schedulesInstance = Schedules.get(params.id)
+	        def schedulesInstance = Schedule.get(params.id)
 	        if (!schedulesInstance) {
 	            flash.message = message(code: 'default.not.found.message', args: [message(code: 'schedules.label', default: 'Schedules'), params.id])
 	            redirect action: 'list'
@@ -103,7 +103,7 @@ class SchedulesController extends CinemarkController {
     }
 
     def delete() {
-        def schedulesInstance = Schedules.get(params.id)
+        def schedulesInstance = Schedule.get(params.id)
         if (!schedulesInstance) {
 			flash.message = message(code: 'default.not.found.message', args: [message(code: 'schedules.label', default: 'Schedules'), params.id])
             redirect action: 'list'
@@ -135,10 +135,8 @@ class SchedulesController extends CinemarkController {
 				response.setStatus(204)
 				return []
 			}
-				
 			
-			
-			return schedulesService.getNextSchedules(theater,movie)
+			return scheduleService.getNextSchedules(theater,movie)
 		}
 		render resp
 	}

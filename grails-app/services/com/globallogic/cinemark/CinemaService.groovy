@@ -8,7 +8,7 @@ class CinemaService {
 			return []
 		}
 		
-		def showTimes = ShowTimes.executeQuery("FROM ShowTimes st WHERE st.cinema.theater = :theater AND :date between st.fromDate AND st.untilDate",[theater:theater,date:new Date().clearTime()])
+		def showTimes = ShowTime.executeQuery("FROM ShowTime st WHERE st.cinema.theater = :theater AND :date between st.fromDate AND st.untilDate",[theater:theater,date:new Date().clearTime()])
 		
 		if (!showTimes){
 			return []

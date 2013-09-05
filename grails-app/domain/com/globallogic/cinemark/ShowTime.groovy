@@ -1,6 +1,6 @@
 package com.globallogic.cinemark
 
-class ShowTimes {
+class ShowTime {
 	Float price
 	Movie movie
 	Date fromDate
@@ -8,7 +8,7 @@ class ShowTimes {
 	Cinema cinema
 	List schedules
 	
-	static hasMany = [schedules: Schedules]
+	static hasMany = [schedules: Schedule]
 	
     static constraints = {
 		movie nullable: false, blank: false, unique: ['cinema','untilDate','fromDate']
@@ -24,7 +24,7 @@ class ShowTimes {
 			id:this.id,
 			seatSections: new ArrayList(),
 			movie: this.movie.buildDTO(),
-			schedules: Schedules.buildDTOList(this.schedules as List),
+			schedules: Schedule.buildDTOList(this.schedules as List),
 			cinemaType: this.cinema.cinemaType.type
 		]
 		return dto

@@ -1,9 +1,9 @@
-<%@ page import="com.globallogic.cinemark.ShowTimes" %>
+<%@ page import="com.globallogic.cinemark.Schedule" %>
 <!doctype html>
 <html>
 	<head>
 		<meta name="layout" content="bootstrap">
-		<g:set var="entityName" value="${message(code: 'showTimes.label', default: 'ShowTimes')}" />
+		<g:set var="entityName" value="${message(code: 'schedules.label', default: 'Schedules')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -39,10 +39,10 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<g:hasErrors bean="${showTimesInstance}">
+				<g:hasErrors bean="${schedulesInstance}">
 				<bootstrap:alert class="alert-error">
 				<ul>
-					<g:eachError bean="${showTimesInstance}" var="error">
+					<g:eachError bean="${schedulesInstance}" var="error">
 					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
 					</g:eachError>
 				</ul>
@@ -52,7 +52,7 @@
 				<fieldset>
 					<g:form class="form-horizontal" action="create" >
 						<fieldset>
-							<g:render template="form" bean="showTimesInstance" />
+							<g:render template="form" bean="schedulesInstance" />
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>

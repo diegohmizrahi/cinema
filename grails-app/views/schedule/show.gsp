@@ -1,5 +1,5 @@
 
-<%@ page import="com.globallogic.cinemark.Schedules" %>
+<%@ page import="com.globallogic.cinemark.Schedule" %>
 <!doctype html>
 <html>
 	<head>

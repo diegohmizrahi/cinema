@@ -5,9 +5,9 @@ package com.globallogic.cinemark
 import org.junit.*
 import grails.test.mixin.*
 
-@TestFor(SchedulesController)
-@Mock(Schedules)
-class SchedulesControllerTests {
+@TestFor(ScheduleController)
+@Mock(Schedule)
+class ScheduleControllerTests {
 
     def populateValidParams(params) {
         assert params != null
@@ -47,7 +47,7 @@ class SchedulesControllerTests {
 
         assert response.redirectedUrl == '/schedules/show/1'
         assert controller.flash.message != null
-        assert Schedules.count() == 1
+        assert Schedule.count() == 1
     }
 
     void testShow() {
@@ -57,7 +57,7 @@ class SchedulesControllerTests {
         assert response.redirectedUrl == '/schedules/list'
 
         populateValidParams(params)
-        def schedules = new Schedules(params)
+        def schedules = new Schedule(params)
 
         assert schedules.save() != null
 
@@ -75,7 +75,7 @@ class SchedulesControllerTests {
         assert response.redirectedUrl == '/schedules/list'
 
         populateValidParams(params)
-        def schedules = new Schedules(params)
+        def schedules = new Schedule(params)
 
         assert schedules.save() != null
 
@@ -95,7 +95,7 @@ class SchedulesControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def schedules = new Schedules(params)
+        def schedules = new Schedule(params)
 
         assert schedules.save() != null
 
@@ -139,17 +139,17 @@ class SchedulesControllerTests {
         response.reset()
 
         populateValidParams(params)
-        def schedules = new Schedules(params)
+        def schedules = new Schedule(params)
 
         assert schedules.save() != null
-        assert Schedules.count() == 1
+        assert Schedule.count() == 1
 
         params.id = schedules.id
 
         controller.delete()
 
-        assert Schedules.count() == 0
-        assert Schedules.get(schedules.id) == null
+        assert Schedule.count() == 0
+        assert Schedule.get(schedules.id) == null
         assert response.redirectedUrl == '/schedules/list'
     }
 }

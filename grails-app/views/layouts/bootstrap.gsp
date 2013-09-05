@@ -46,10 +46,10 @@
 							<li <%=entityName == "User" ? ' class="active"' : ''%>><g:link controller="User" action="list">${message(code: 'user.label', default: 'User')}</g:link></li>
 							<li <%=entityName == "Theater" ? ' class="active"' : ''%>><g:link controller="Theater" action="list">${message(code: 'theater.label', default: 'Theater')}</g:link></li>
 							<li <%=entityName == "Cinema" ? ' class="active"' : ''%>><g:link controller="Cinema" action="list">${message(code: 'cinema.label', default: 'Cinema')}</g:link></li>
-							<li <%=entityName == "SeatSection" ? ' class="active"' : ''%>><g:link controller="SeatSection" action="list">${message(code: 'seatSection.label', default: 'SeatSection')}</g:link></li>
-							<li <%=entityName == "ShowTimes" ? ' class="active"' : ''%>><g:link controller="ShowTimes" action="list">${message(code: 'showTimes.label', default: 'Show Times')}</g:link></li>
+							<li <%=entityName == "SeatSection" ? ' class="active"' : ''%>><g:link controller="SeatSection" action="list">${message(code: 'seatSection.label', default: 'Seat Sections')}</g:link></li>
+							<li <%=entityName == "ShowTime" ? ' class="active"' : ''%>><g:link controller="ShowTime" action="list">${message(code: 'showTimes.label', default: 'Show Times')}</g:link></li>
 							<li <%=entityName == "Movie" ? ' class="active"' : ''%>><g:link controller="Movie" action="list">${message(code: 'movie.label', default: 'Movie')}</g:link></li>
-							<li <%=entityName == "Schedules" ? ' class="active"' : ''%>><g:link controller="Schedules" action="list">${message(code: 'schedules.label', default: 'Schedules')}</g:link></li>
+							<li <%=entityName == "Schedule" ? ' class="active"' : ''%>><g:link controller="Schedule" action="list">${message(code: 'schedules.label', default: 'Schedules')}</g:link></li>
 						</ul>
 					</div>
 				</sec:ifAllGranted>

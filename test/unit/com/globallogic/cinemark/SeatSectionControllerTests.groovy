@@ -4,15 +4,23 @@ package com.globallogic.cinemark
 
 import org.junit.*
 import grails.test.mixin.*
+import com.globallogic.cinemark.enums.SeatsSectionType
+import com.globallogic.cinemark.enums.CinemaType
 
 @TestFor(SeatSectionController)
-@Mock(SeatSection)
+@Mock([SeatSection,Theater,Cinema])
 class SeatSectionControllerTests {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
         //params["name"] = 'someValidName'
+		def theater = Theater.get(1)?:new Theater(name:"test theater", address:"testaddress 123", phone: 39859394).save()
+		def cinema = Cinema.get(1)?:new Cinema(cinemaNumber:1, theater:theater, cinemaType: CinemaType.XD).save()
+		params["rows"] = 1
+		params["columns"] = theater
+		params["type"] = SeatsSectionType.LEFT.section
+		params["cinema"] = cinema
     }
 
     void testIndex() {
@@ -29,27 +37,29 @@ class SeatSectionControllerTests {
     }
 
     void testCreate() {
+		request.method = "GET"
         def model = controller.create()
 
         assert model.seatSectionInstance != null
     }
 
     void testSave() {
-        controller.save()
+		request.method = "GET"
+		populateValidParams(params)
+        def model = controller.create()
 
         assert model.seatSectionInstance != null
-        assert view == '/seatSection/create'
-
         response.reset()
 
         populateValidParams(params)
-        controller.save()
+		request.method = "POST"
+        controller.create()
 
         assert response.redirectedUrl == '/seatSection/show/1'
         assert controller.flash.message != null
         assert SeatSection.count() == 1
     }
-
+	
     void testShow() {
         controller.show()
 
@@ -66,6 +76,9 @@ class SeatSectionControllerTests {
         def model = controller.show()
 
         assert model.seatSectionInstance == seatSection
+		
+		controller.show()
+		
     }
 
     void testEdit() {

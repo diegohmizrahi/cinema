@@ -19,7 +19,7 @@ class TheaterController extends CinemarkController {
     def create() {
 		switch (request.method) {
 		case 'GET':
-        	[theaterInstance: new Theater(params)]
+			[theaterInstance: new Theater(params)]
 			break
 		case 'POST':
 	        def theaterInstance = new Theater(params)
