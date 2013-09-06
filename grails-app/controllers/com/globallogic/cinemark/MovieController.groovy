@@ -5,7 +5,8 @@ import org.springframework.dao.DataIntegrityViolationException
 class MovieController extends CinemarkController {
 
     static allowedMethods = [create: ['GET', 'POST'], edit: ['GET', 'POST'], delete: 'POST', getMovieData: 'GET']
-
+	def movieService
+	
     def index() {
         redirect action: 'list', params: params
     }
@@ -115,13 +116,12 @@ class MovieController extends CinemarkController {
 	
 	def getMovies = {
 		def resp = checkedOperation {
-			def movies = Movie.list()
+			def movies = movieService.getCurrentMovies()
 			if (!movies) {
 				response.setStatus(204)
 				[]
-			}else {
-				buildDTOList(movies)
 			}
+			buildDTOList(movies)
 		}
 		render resp
 		
